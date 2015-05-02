@@ -1,0 +1,9 @@
+{
+  "name": "trackpacker-app.server",
+  "version": "0.0.1",
+  "dependencies": {
+    "cradle": "^0.6.9",
+    "express": "^4.12.3",
+    "nano": "^6.1.2"
+  }
+}
