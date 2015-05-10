@@ -1,6 +1,7 @@
 var express=require("express");
 var CouchDB=require("./couchdb_conf");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var multer  = require('multer');
 
 //require the custom modules
 var login=require("./authenticate/login");
@@ -17,8 +18,9 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.use(multer({ dest: './uploads/'}));
 
 //use all the custom modules
 login(app, CouchDB);
 
-app.listen(3000);
+app.listen(8888);

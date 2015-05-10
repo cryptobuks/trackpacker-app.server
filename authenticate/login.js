@@ -21,6 +21,10 @@ var login=function(app, CouchDB){
 
       });
   });
+
+  app.post("/users/upload", function(request, response){
+      console.log(request.files);
+  });
 }
 
 module.exports=login;
