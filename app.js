@@ -5,6 +5,8 @@ var multer  = require('multer');
 
 //require the custom modules
 var login=require("./authenticate/login");
+var maps=require("./maps/create_map");
+var update_settings=require('./settings/update_settings');
 
 var app=express();
 
@@ -18,9 +20,12 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+
 app.use(multer({ dest: './uploads/'}));
 
 //use all the custom modules
 login(app, CouchDB);
+maps(app, CouchDB);
+update_settings(app, CouchDB);
 
 app.listen(8888);

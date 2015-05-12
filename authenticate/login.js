@@ -3,7 +3,7 @@ var login=function(app, CouchDB){
   app.get("/users/login/:email/:password", function(request, response){
 
     nano.view('login', 'by_email_and_password', {key:[request.params.email, request.params.password]}, function(err, body) {
-      if (err) console.log(err);
+         if (err) console.log(err);
          if (!body.rows.length) {
             response.json(body);
          } else {
@@ -19,7 +19,7 @@ var login=function(app, CouchDB){
                    sync_url: "https://trackpacker.cloudant.com/users"},
                    function(request, response){
 
-      });
+                   });
   });
 
   app.post("/users/upload", function(request, response){
