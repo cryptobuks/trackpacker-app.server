@@ -7,6 +7,7 @@ var create_map=function(app, CouchDB){
         var start_microtime=new Date(req_body.start_date).getTime()/1000;
         var end_microtime=new Date(req_body.end_date).getTime()/1000;
         nano.insert({name: req_body.name, start_date: start_microtime, end_date: end_microtime, 
+          user_id: req_body.user_id, 
           is_trip: req_body.is_trip, 
           spots: [
              {

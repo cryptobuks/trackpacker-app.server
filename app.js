@@ -7,6 +7,7 @@ var multer  = require('multer');
 var login=require("./authenticate/login");
 var maps=require("./maps/create_map");
 var update_settings=require('./settings/update_settings');
+var adventure_logs=require('./adventurelogs/adventurelogs');
 
 var app=express();
 
@@ -27,5 +28,6 @@ app.use(multer({ dest: './uploads/'}));
 login(app, CouchDB);
 maps(app, CouchDB);
 update_settings(app, CouchDB);
+adventure_logs(app, CouchDB);
 
 app.listen(8888);
