@@ -1,14 +1,15 @@
 var microtime_utils=require('../time_utils/microtimes');
 
-var create_map=function(app, CouchDB){
+var create_map = function(app, CouchDB){
     var nano=CouchDB().db("maps");
     app.post("/maps/create", function(request, response){
+        console.log("create map!!!!!");
         var req_body=request.body;
         var start_microtime=new Date(req_body.start_date).getTime()/1000;
         var end_microtime=new Date(req_body.end_date).getTime()/1000;
-        nano.insert({name: req_body.name, start_date: start_microtime, end_date: end_microtime, 
+        nano.insert({name: req_body.trip_name.toString(), start_date: new Date(), end_date: new Date(),
           user_id: req_body.user_id, 
-          is_trip: req_body.is_trip, 
+          is_trip: "YES",
           spots: [
              {
              	created: parseInt(new Date().getTime()/1000),

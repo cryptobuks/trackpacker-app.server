@@ -1,7 +1,7 @@
 var express=require("express");
 var CouchDB=require("./couchdb_conf");
 var bodyParser = require('body-parser');
-var multer  = require('multer');
+var multer = require('multer');
 
 //require the custom modules
 var login=require("./authenticate/login");

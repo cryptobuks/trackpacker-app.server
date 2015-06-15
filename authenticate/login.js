@@ -1,7 +1,7 @@
 var login=function(app, CouchDB){
   var nano=CouchDB().db("users");
   app.get("/users/login/:email/:password", function(request, response){
-
+    console.log(response);
     nano.view('login', 'by_email_and_password', {key:[request.params.email, request.params.password]}, function(err, body) {
          if (err) console.log(err);
          if (!body.rows.length) {
