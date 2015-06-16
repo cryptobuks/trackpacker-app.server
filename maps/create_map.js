@@ -7,9 +7,10 @@ var create_map = function(app, CouchDB){
         var req_body=request.body;
         var start_microtime=new Date(req_body.start_date).getTime()/1000;
         var end_microtime=new Date(req_body.end_date).getTime()/1000;
-        nano.insert({name: req_body.trip_name.toString(), start_date: new Date(), end_date: new Date(),
+        nano.insert({trip_name: req_body.trip_name.toString(), start_date: new Date(), end_date: new Date(),
           user_id: req_body.user_id, 
           is_trip: "YES",
+          place: "China",
           spots: [
              {
              	created: parseInt(new Date().getTime()/1000),
@@ -53,6 +54,22 @@ var create_map = function(app, CouchDB){
             phone: 2028129595 //ten digit number of person to text check message to
            }]
        }, function(req, res){});
+    });
+
+    app.get("/maps/get_my_trips/:user_id", function(request, response){
+        var req_body = request.params;
+        nano.view('find_trips', 'by_user_id', {key: req_body.user_id}, function(err, body) {
+            console.log("user_id: "+req_body.user_id);
+            if (err) console.log(err);
+            if (!body.rows.length) {
+                response.json(body);
+                console.log("np data!!!");
+            } else {
+                response.status(200).json(body);
+                console.log(body);
+                console.log("data!!!!");
+            }
+        });
     });
 }
 

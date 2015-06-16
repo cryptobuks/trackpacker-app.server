@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../syruby/.idea/syruby.iml" filepath="$PROJECT_DIR$/../../syruby/.idea/syruby.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/trackpacker-app.server.iml" filepath="$PROJECT_DIR$/.idea/trackpacker-app.server.iml" />
     </modules>
   </component>
 </project>
-
