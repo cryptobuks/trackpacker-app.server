@@ -8,6 +8,7 @@ var login=require("./authenticate/login");
 var maps=require("./maps/create_map");
 var update_settings=require('./settings/update_settings');
 var adventure_logs=require('./adventurelogs/adventurelogs');
+var points_service = require('./points/points_service');
 
 var app=express();
 
@@ -29,5 +30,6 @@ login(app, CouchDB);
 maps(app, CouchDB);
 update_settings(app, CouchDB);
 adventure_logs(app, CouchDB);
+points_service(app, CouchDB);
 
 app.listen(8888);

@@ -11,35 +11,6 @@ var create_map = function(app, CouchDB){
           user_id: req_body.user_id, 
           is_trip: "YES",
           place: "China",
-          spots: [
-             {
-             	created: parseInt(new Date().getTime()/1000),
-             	title: req_body.title, 
-             	notes: req_body.notes, 
-             	reverse_geo: "",
-             	geo_point: {
-             		type: "Feature", 
-             		geometry: {
-             			type: "Point",
-             			coordinates: [req_body.lat, req_body.lon]
-             		},
-             		properties: {
-             			name: req_body.property_name
-             		}
-             	},
-             	photos: [{
-                    thumb: '', 
-                    local_path: '', 
-                    remote_path: ''
-             	}], 
-
-             	videos:[{
-             		thumb: '', //base64 encoded thumbnail - may not use
-                    local_path: "", //where the picture is in their camera role                    
-                    remote_path: "" //where it is located in S3 storage  
-             	}]
-             }
-          ],
           gps_intervals:{
              distance: req_body.distance, //meters of distance between auto lookup
              frequency: req_body.frequency_auto_lookup //the number of minutes between auto lookup
@@ -71,6 +42,7 @@ var create_map = function(app, CouchDB){
             }
         });
     });
+
 }
 
 module.exports=create_map;
