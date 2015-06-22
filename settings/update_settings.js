@@ -2,7 +2,9 @@ var settings=function(app, CouchDB){
     var nano=CouchDB().db("settings");
     app.post("/settings/update", function(request, response){
         var req_body=request.body;
-        nano.get(req_body.user_id, function(err, doc){
+        console.log("update setting!!!!");
+        nano.get("528db487eaa392a931582b45c05039c3", function(err, doc){
+            console.log(err);
            updaterev = doc._rev;
            nano.insert({
               _rev: updaterev,
@@ -13,7 +15,7 @@ var settings=function(app, CouchDB){
               },
               auto_gps_tracking: req_body.auto_gps_tracking,
               safty_checkin: req_body.safty_checkin
-           }, req_body.user_id ,function(err, body, header){  });
+           },"528db487eaa392a931582b45c05039c3" ,function(err, body, header){  });
         });
     });
 }
