@@ -1,7 +1,8 @@
 var microtime_utils=require('../time_utils/microtimes');
 
-var create_map = function(app, CouchDB){
+var create_map = function(app, CouchDB, CradleDB){
     var nano=CouchDB().db("maps");
+    var cradle = CradleDB().database("maps");
     app.post("/maps/create", function(request, response){
         console.log("create map!!!!!");
         var req_body=request.body;
@@ -15,6 +16,8 @@ var create_map = function(app, CouchDB){
              distance: req_body.distance, //meters of distance between auto lookup
              frequency: req_body.frequency_auto_lookup //the number of minutes between auto lookup
           },
+            use_auto_gps_tracking: req_body.use_auto_gps_tracking,
+            save_position_frequency: req_body.save_position_frequency,
           checkin_enabled: req_body.checkin_enabled, //
           checkin_default_message: "Doing great, talk soon",// the default message to be sent 
           pin: '', // one way hash of trip pin code used for authorizing access to this trip    checkin_reminder: true // whether to produce a daily check in notification
@@ -34,12 +37,21 @@ var create_map = function(app, CouchDB){
             if (err) console.log(err);
             if (!body.rows.length) {
                 response.json(body);
-                console.log("np data!!!");
             } else {
                 response.status(200).json(body);
-                console.log(body);
-                console.log("data!!!!");
             }
+        });
+    });
+
+    app.post("/maps/update_trip", function(request, response){
+        var req_body=request.body;
+        console.log("update the trip!!!!!");
+        cradle.merge(req_body.trip_id, {
+            use_auto_gps_tracking: req_body.use_auto_gps_tracking,
+            save_position_frequency: req_body.save_position_frequency
+        }, function(err, res){
+            console.log(err);
+            console.log(res);
         });
     });
 

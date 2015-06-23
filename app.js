@@ -1,5 +1,6 @@
 var express=require("express");
 var CouchDB=require("./couchdb_conf");
+var CradleDB=require("./cradle");
 var bodyParser = require('body-parser');
 var multer = require('multer');
 
@@ -27,7 +28,7 @@ app.use(multer({ dest: './uploads/'}));
 
 //use all the custom modules
 login(app, CouchDB);
-maps(app, CouchDB);
+maps(app, CouchDB, CradleDB);
 update_settings(app, CouchDB);
 adventure_logs(app, CouchDB);
 points_service(app, CouchDB);
