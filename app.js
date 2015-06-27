@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
@@ -29,7 +29,7 @@ app.use(multer({ dest: './uploads/'}));
 //use all the custom modules
 login(app, CouchDB);
 maps(app, CouchDB, CradleDB);
-update_settings(app, CouchDB);
+update_settings(app, CouchDB, CradleDB);
 adventure_logs(app, CouchDB);
 points_service(app, CouchDB);
 
