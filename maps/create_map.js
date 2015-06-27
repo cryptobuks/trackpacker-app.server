@@ -18,6 +18,7 @@ var create_map = function(app, CouchDB, CradleDB){
           },
             use_auto_gps_tracking: req_body.use_auto_gps_tracking,
             save_position_frequency: req_body.save_position_frequency,
+            use_offline_maps: req_body.use_offline_maps,
           checkin_enabled: req_body.checkin_enabled, //
           checkin_default_message: "Doing great, talk soon",// the default message to be sent 
           pin: '', // one way hash of trip pin code used for authorizing access to this trip    checkin_reminder: true // whether to produce a daily check in notification
