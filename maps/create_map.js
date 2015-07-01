@@ -6,10 +6,12 @@ var create_map = function(app, CouchDB, CradleDB){
     app.post("/maps/create", function(request, response){
         console.log("create map!!!!!");
         var req_body=request.body;
-        var start_microtime=new Date(req_body.start_date).getTime()/1000;
-        var end_microtime=new Date(req_body.end_date).getTime()/1000;
-        nano.insert({trip_name: req_body.trip_name.toString(), start_date: new Date(), end_date: new Date(),
-          user_id: req_body.user_id, 
+        var start_microtime=new Date(req_body.start_date).getTime();
+        var end_microtime=new Date(req_body.end_date).getTime();
+        nano.insert({trip_name: req_body.trip_name.toString(), start_date: req_body.start_date, end_date: req_body.end_date,
+          start_date_microtime: start_microtime,
+          end_date_microtime: end_microtime,
+          user_id: req_body.user_id,
           is_trip: "YES",
           place: "China",
           gps_intervals:{
@@ -20,9 +22,9 @@ var create_map = function(app, CouchDB, CradleDB){
             save_position_frequency: req_body.save_position_frequency,
             use_offline_maps: req_body.use_offline_maps,
           checkin_enabled: req_body.checkin_enabled, //
-          checkin_default_message: "Doing great, talk soon",// the default message to be sent 
+          checkin_default_message: "Doing great, talk soon",// the default message to be sent
           pin: '', // one way hash of trip pin code used for authorizing access to this trip    checkin_reminder: true // whether to produce a daily check in notification
-          checkin_contacts: 
+          checkin_contacts:
           [{
             name: "Patty Jones", //the name of the contact
             email: "someone@place.com", //email to send check in message to
