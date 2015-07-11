@@ -16,6 +16,21 @@ var settings=function(app, CouchDB, CradleDB){
             });
         });
     });
+
+    app.get("/settings/get/:user_id", function(request, response){
+        var req_body = request.params;
+        console.log("get settings hit!!!");
+        console.log("user_id: "+req_body.user_id);
+        nano.view('settings', 'by_user_id', {key: req_body.user_id}, function(err, body) {
+            console.log("user_id: "+req_body.user_id);
+            if (err) console.log(err);
+            if (!body.rows.length) {
+                response.json(body);
+            } else {
+                response.status(200).json(body);
+            }
+        });
+    });
 }
 
 module.exports=settings;

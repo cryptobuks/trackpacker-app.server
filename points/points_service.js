@@ -4,6 +4,7 @@ var points_service = function(app, CouchDB){
         var req_body = request.body;
         console.log("create new point!!!");
         nano.insert({
+            user_id: req_body.user_id,
             map_id: req_body.map_id,
             created: parseInt(new Date().getTime()/1000),
             title: req_body.title,
@@ -13,7 +14,7 @@ var points_service = function(app, CouchDB){
                 type: "Feature",
                 geometry: {
                     type: "Point",
-                    coordinates: [req_body.lat, req_body.lon]
+                    coordinates: [req_body.latitude, req_body.longitude]
                 },
                 properties: {
                     name: req_body.property_name
