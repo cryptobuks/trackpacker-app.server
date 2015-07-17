@@ -1,6 +1,7 @@
 var points_service = function(app, CouchDB){
     var nano=CouchDB().db("points");
     app.post("/maps/add_points", function(request, response){
+        console.log("add points called!!!!")
         var req_body = request.body;
         console.log("create new point!!!");
         nano.insert({
