@@ -15,7 +15,7 @@ var points_service = function(app, CouchDB){
                 type: "Feature",
                 geometry: {
                     type: "Point",
-                    coordinates: [req_body.latitude, req_body.longitude]
+                    coordinates: {lat: req_body.latitude, long: req_body.longitude}
                 },
                 properties: {
                     name: req_body.property_name
@@ -34,6 +34,20 @@ var points_service = function(app, CouchDB){
             }]
         }, function(err, body){
             console.log(err);
+        });
+    });
+
+    app.get("/maps/get_points_by_map_id/:map_id", function(request, response){
+        var req_body = request.params;
+        console.log("get my points!!!");
+        console.log("map id: "+req_body.map_id);
+        nano.view('query_points', 'by_map_id', {key: req_body.map_id}, function(err, body) {
+            if (err) console.log(err);
+            if (!body.rows.length) {
+                response.json(body);
+            } else {
+                response.status(200).json(body);
+            }
         });
     });
 };
