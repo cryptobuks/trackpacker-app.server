@@ -17,13 +17,21 @@ var login=function(app, CouchDB){
       nano.insert({first_name: req_body.first_name, last_name: req_body.last_name,
                    email: req_body.email, password: req_body.password,
                    sync_url: "https://trackpacker.cloudant.com/users"},
-                   function(request, response){
-
+                   function(err, body){
+					   if (!err)
+                           response.status(200);
                    });
   });
 
   app.post("/users/upload", function(request, response){
       console.log(request.files);
+  });
+  
+  app.get("/users/check_repeated_email/:email", function(request, response){
+  	  nano.view('login', 'by_email', {key: request.params.email}, function(err, body){
+		  if (!body.rows.length) response.json(body);
+		  else response.status(200).json(body);
+  	  });
   });
 }
 
