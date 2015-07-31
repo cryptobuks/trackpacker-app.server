@@ -1,22 +1,28 @@
 var settings=function(app, CouchDB, CradleDB){
     var nano=CouchDB().db("settings");
     var cradle = CradleDB().database("settings");
-	
+	app.get("/settings/wocao", function(request, response){
+        console.log("wocao");
+        response.status(200).json("sdfdsf");
+    });
 	app.post("/settings/create_if_not_exist", function(request, response){
-		var req_body = request.body;
+        console.log("create!!!!!");
+        var req_body = request.body;
         nano.view('settings', 'by_user_id', {key: req_body.user_id}, function(err, body) {
-            if (err) console.log(err);
+            if (err) response.status(500).json("");
             if (!body.rows.length) {
                 nano.insert({ user_id: req_body.user_id }, function(insert_error, body_after_insert){
                     if (insert_error){
                         console.log(insert_error);
-                        response.status(500);
+                        response.status(500).json("");
                     }
                     else
-                	    response.status(200);
+                	    response.status(200).json("");
                 });
+                response.status(200).json("");
             }
         });
+        response.status(200).json("");
 	});
 	
     app.post("/settings/update", function(request, response){

@@ -5,7 +5,8 @@ var login=function(app, CouchDB){
     nano.view('login', 'by_email_and_password', {key:[request.params.email, request.params.password]}, function(err, body) {
          if (err) console.log(err);
          if (!body.rows.length) {
-            response.json(body);
+            //response.json(body);
+            response.json(500);
          } else {
             response.status(200).json(body);
          }
