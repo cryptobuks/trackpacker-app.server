@@ -34,6 +34,9 @@ var points_service = function(app, CouchDB){
             }]
         }, function(err, body){
             console.log(err);
+            if (err)
+              response.status(500);
+            else response.status(200)
         });
     });
 
@@ -44,7 +47,7 @@ var points_service = function(app, CouchDB){
         nano.view('query_points', 'by_map_id', {key: req_body.map_id}, function(err, body) {
             if (err) console.log(err);
             if (!body.rows.length) {
-                response.json(body);
+                response.status(500);
             } else {
                 response.status(200).json(body);
             }

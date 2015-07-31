@@ -8,7 +8,12 @@ var settings=function(app, CouchDB, CradleDB){
             if (err) console.log(err);
             if (!body.rows.length) {
                 nano.insert({ user_id: req_body.user_id }, function(insert_error, body_after_insert){
-                	response.status(200);
+                    if (insert_error){
+                        console.log(insert_error);
+                        response.status(500);
+                    }
+                    else
+                	    response.status(200);
                 });
             }
         });
@@ -23,9 +28,11 @@ var settings=function(app, CouchDB, CradleDB){
                 use_auto_gps_tracking: req_body.use_auto_gps_tracking,
                 save_position_frequency: req_body.save_position_frequency
             }, function(err2, res2){
-                console.log(err2);
-                //console.log(res2);
-                if(!err2) response.status(200);
+                if(err2) {
+                    console.log(err2);
+                    response.status(500);
+                }
+                else response.status(200)
             });
         });
     });
