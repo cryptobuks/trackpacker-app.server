@@ -1,5 +1,6 @@
-var points_service = function(app, CouchDB){
+var points_service = function(app, CouchDB, CradleDB){
     var nano=CouchDB().db("points");
+    var cradle = CradleDB().database("points");
     app.post("/maps/add_points", function(request, response){
         console.log("add points called!!!!")
         var req_body = request.body;
@@ -50,6 +51,42 @@ var points_service = function(app, CouchDB){
                 response.status(500);
             } else {
                 response.status(200).json(body);
+            }
+        });
+    });
+
+    app.post("/points/upload_photo", function(request, response){
+        console.log("upload photos!!!!");
+        var req_body = request.params;
+        cradle.get(req_body.point_id, function(err, doc){
+
+        });
+    });
+
+    app.post("/points/update_descriptions", function(request, response){
+        console.log("update descriptions!!!!");
+        var req_body = request.body;
+        console.log(req_body.point_id);
+        cradle.get(req_body.point_id, function(err, doc){
+            if(err) {
+                console.log("rrror!"+err);
+                response.status(500);
+            }
+            else{
+                console.log("descriptions: "+doc);
+                cradle.merge(req_body.point_id, {
+                    descriptions: req_body.descriptions
+                }, function(merge_err, merge_res){
+                    if(merge_err) {
+                        console.log("error!"+merge_err);
+                        response.status(500).json("failed");
+                    }
+                    else{
+                        console.log("200!!!");
+                        response.status(200).json("success");
+                    }
+                });
+                response.status(200);
             }
         });
     });

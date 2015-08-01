@@ -31,6 +31,6 @@ login(app, CouchDB);
 maps(app, CouchDB, CradleDB);
 update_settings(app, CouchDB, CradleDB);
 adventure_logs(app, CouchDB);
-points_service(app, CouchDB);
+points_service(app, CouchDB, CradleDB);
 
 app.listen(8888);
