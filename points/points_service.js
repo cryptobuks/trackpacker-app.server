@@ -68,10 +68,8 @@ var points_service = function(app, CouchDB, CradleDB){
         var req_body = request.body;
         console.log(req_body.point_id);
         cradle.get(req_body.point_id, function(err, doc){
-            if(err) {
-                console.log("rrror!"+err);
+            if(err)
                 response.status(500);
-            }
             else{
                 console.log("descriptions: "+doc);
                 cradle.merge(req_body.point_id, {
