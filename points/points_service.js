@@ -90,6 +90,44 @@ var points_service = function(app, CouchDB, CradleDB){
             }
         });
     });
+
+    app.post("/points/upload_photos", function(request, response){
+        console.log("upload photos!");
+        var req_body = request.body;
+        cradle.get(req_body.point_id, function(err, doc){
+            if (err) {
+                console.log("server errror");
+                response.status(500);
+            }
+            else{
+                console.log(doc);
+                doc.photos.push(
+                    {
+                        thumb: "",
+                        local_path: "",
+                        remote_path: req_body.photo_remote_url
+                    }
+                );
+                cradle.merge(req_body.point_id, {photos: doc.photos}, function(merge_err, merge_res){
+                    if (merge_err){
+                        response.status(500);
+                    }
+                    else response.status(200);
+                });
+            }
+            response.status(200).json("success");
+        });
+    });
+
+    app.get("/points/get_photos/:point_id", function(request, response){
+        console.log("get photos!!");
+        var req_body = request.params;
+        cradle.get(req_body.point_id, function(err, doc){
+            if (err) response.status(500).json("");
+            else
+                response.status(200).json(doc);
+        });
+    });
 };
 
 module.exports = points_service;
