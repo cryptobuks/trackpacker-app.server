@@ -55,36 +55,34 @@ var points_service = function(app, CouchDB, CradleDB){
         });
     });
 
-    app.post("/points/upload_photo", function(request, response){
-        console.log("upload photos!!!!");
-        var req_body = request.params;
-        cradle.get(req_body.point_id, function(err, doc){
-
-        });
-    });
+    //app.post("/points/upload_photo", function(request, response){
+    //    console.log("upload photos!!!!");
+    //    var req_body = request.params;
+    //    cradle.get(req_body.point_id, function(err, doc){
+    //
+    //    });
+    //});
 
     app.post("/points/update_descriptions", function(request, response){
         console.log("update descriptions!!!!");
         var req_body = request.body;
         console.log(req_body.point_id);
         cradle.get(req_body.point_id, function(err, doc){
-            if(err)
-                response.status(500);
+            if(err) {
+                console.log(err);
+                response.status(500).end();
+            }
             else{
-                console.log("descriptions: "+doc);
                 cradle.merge(req_body.point_id, {
                     descriptions: req_body.descriptions
                 }, function(merge_err, merge_res){
                     if(merge_err) {
                         console.log("error!"+merge_err);
-                        response.status(500).json("failed");
+                        response.status(500).end();
                     }
-                    else{
-                        console.log("200!!!");
-                        response.status(200).json("success");
-                    }
+                    else
+                        response.status(200).end();
                 });
-                response.status(200);
             }
         });
     });
@@ -110,7 +108,7 @@ var points_service = function(app, CouchDB, CradleDB){
                     if (merge_err){
                         response.status(500);
                     }
-                    else response.status(200);
+                    else response.status(200).json("success");
                 });
             }
             response.status(200).json("success");
@@ -124,6 +122,14 @@ var points_service = function(app, CouchDB, CradleDB){
             if (err) response.status(500).json("");
             else
                 response.status(200).json(doc);
+        });
+    });
+
+    app.get("/points/get_descriptions/:point_id", function(request, response){
+        var req_body = request.params;
+        cradle.get(req_body.point_id, function(err, doc){
+            if (err) response.status(500).json("");
+            else response.status(200).json(doc);
         });
     });
 };
