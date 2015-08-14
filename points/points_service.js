@@ -55,14 +55,6 @@ var points_service = function(app, CouchDB, CradleDB){
         });
     });
 
-    //app.post("/points/upload_photo", function(request, response){
-    //    console.log("upload photos!!!!");
-    //    var req_body = request.params;
-    //    cradle.get(req_body.point_id, function(err, doc){
-    //
-    //    });
-    //});
-
     app.post("/points/update_descriptions", function(request, response){
         console.log("update descriptions!!!!");
         var req_body = request.body;
@@ -97,13 +89,11 @@ var points_service = function(app, CouchDB, CradleDB){
             }
             else{
                 console.log(doc);
-                doc.photos.push(
-                    {
+                doc.photos.push({
                         thumb: "",
                         local_path: "",
                         remote_path: req_body.photo_remote_url
-                    }
-                );
+                    });
                 cradle.merge(req_body.point_id, {photos: doc.photos}, function(merge_err, merge_res){
                     if (merge_err){
                         response.status(500);
@@ -130,6 +120,42 @@ var points_service = function(app, CouchDB, CradleDB){
         cradle.get(req_body.point_id, function(err, doc){
             if (err) response.status(500).json("");
             else response.status(200).json(doc);
+        });
+    });
+
+    app.post("/points/sync_to_couchdb", function(request, response){
+        var req_body = request.body;
+        cradle.get(req_body.point_id, function(err, doc){
+            if (err) response.status(500).end();
+            else{
+                //if the params has photo_remote_url key, then we know the user wanna update photo
+                if (req_body.photo_remote_url != undefined){
+                    doc.photos.push({
+                        thumb: "",
+                        local_path: "",
+                        remote_path: req_body.photo_remote_url
+                    });
+                    cradle.merge(req_body.point_id, {photos: doc.photos}, function(merge_err, merge_res){
+                        if (merge_err){
+                            response.status(500);
+                        }
+                        else response.status(200).end();
+                    });
+                }
+                //if descriptions key is not null, then user wanna update journal
+                if (req_body.descriptions != undefined) {
+                    cradle.merge(req_body.point_id, {
+                        descriptions: req_body.descriptions
+                    }, function(merge_err, merge_res){
+                        if(merge_err) {
+                            console.log("error for journal!"+merge_err);
+                            response.status(500).end();
+                        }
+                        else
+                            response.status(200).end();
+                    });
+                }
+            }
         });
     });
 };
