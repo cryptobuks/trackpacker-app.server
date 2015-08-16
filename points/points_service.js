@@ -4,7 +4,6 @@ var points_service = function(app, CouchDB, CradleDB){
     app.post("/maps/add_points", function(request, response){
         console.log("add points called!!!!")
         var req_body = request.body;
-        console.log("create new point!!!");
         nano.insert({
             user_id: req_body.user_id,
             map_id: req_body.map_id,
@@ -123,19 +122,20 @@ var points_service = function(app, CouchDB, CradleDB){
         });
     });
 
-    app.post("/points/sync_to_couchdb", function(request, response){
+    app.post("/points/sync_existing_point", function(request, response){
         var req_body = request.body;
         cradle.get(req_body.point_id, function(err, doc){
             if (err) response.status(500).end();
             else{
                 //if the params has photo_remote_url key, then we know the user wanna update photo
                 if (req_body.photo_remote_url != undefined){
-                    doc.photos.push({
-                        thumb: "",
-                        local_path: "",
-                        remote_path: req_body.photo_remote_url
-                    });
-                    cradle.merge(req_body.point_id, {photos: doc.photos}, function(merge_err, merge_res){
+                    //doc.photos.push({
+                    //    thumb: "",
+                    //    local_path: "",
+                    //    remote_path: req_body.photo_remote_url
+                    //});
+                    photos_arr = doc.photos.split(",");
+                    cradle.merge(req_body.point_id, {photos: photos_arr}, function(merge_err, merge_res){
                         if (merge_err){
                             response.status(500);
                         }
