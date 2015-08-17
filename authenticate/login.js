@@ -34,6 +34,21 @@ var login=function(app, CouchDB){
 		  else response.status(200).json(body);
   	  });
   });
+
+  app.get("/users/search/:input", function(request, response){
+      var req_body = request.params;
+      console.log(req_body.input);
+      nano.view('search', 'by_fname_lname_email', {key: req_body.input }, function(err, body){
+          if(err) {
+              console.log("err: "+err);
+              response.status(500).end();
+          }
+          else{
+              console.log("search results: "+body);
+              response.status(200).json(body);
+          }
+      });
+  });
 }
 
 module.exports=login;
