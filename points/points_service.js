@@ -51,9 +51,9 @@ var points_service = function(app, CouchDB, CradleDB){
         nano.view('query_points', 'by_map_id', {key: req_body.map_id}, function(err, body) {
             if (err) console.log(err);
             if (!body.rows.length) {
-                response.status(500);
+                response.status(500).end();
             } else {
-                response.status(200).json(body);
+                response.status(200).json(body).end();
             }
         });
     });

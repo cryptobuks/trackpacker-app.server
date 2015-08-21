@@ -7,6 +7,7 @@ var db_url="@trackpacker.cloudant.com";
 var CouchDB = function(){
    return {db_conn_str: "http://" + username + ":" + password + db_url,
        db: function (database_name) {
+           console.log(this.db_conn_str);
            return nano(this.db_conn_str + "/" + database_name)
        }
    }
