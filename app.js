@@ -10,6 +10,7 @@ var maps=require("./maps/create_map");
 var update_settings=require('./settings/update_settings');
 var adventure_logs=require('./adventurelogs/adventurelogs');
 var points_service = require('./points/points_service');
+var follow_service = require('./follow_users/follow_handling');
 
 var app=express();
 
@@ -32,5 +33,6 @@ maps(app, CouchDB, CradleDB);
 update_settings(app, CouchDB, CradleDB);
 adventure_logs(app, CouchDB);
 points_service(app, CouchDB, CradleDB);
+follow_service(app, CouchDB, CradleDB);
 
 app.listen(8888);

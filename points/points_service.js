@@ -112,7 +112,7 @@ var points_service = function(app, CouchDB, CradleDB){
         console.log("get photos!!");
         var req_body = request.params;
         cradle.get(req_body.point_id, function(err, doc){
-            if (err) response.status(500).json("");
+            if (err) response.status(200).json({});
             else
                 response.status(200).json(doc);
         });
