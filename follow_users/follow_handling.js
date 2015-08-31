@@ -26,6 +26,20 @@ var follow_users = function(app, CouchDB, CradleDB){
          }
      });
   });
+
+  app.get("/users/notifications/:target_id", function(request, response){
+     var req_body = request.params;
+     nano.view('search_target', 'by_target_id', {key: req_body.target_id}, function(err, body){
+        if(body.rows.length == 0){
+        	console.log("no notifications");
+        	response.status(200).end();
+        }
+        else{
+        	console.log("you have notifications!");
+        	response.status(200).json(body);
+        }
+     });
+  });
 };
 
 module.exports=follow_users;
