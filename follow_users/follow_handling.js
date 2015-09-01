@@ -5,7 +5,7 @@ var follow_users = function(app, CouchDB, CradleDB){
     app.post("/users/follow", function(request, response){
      var req_body = request.body;
      console.log("follow user!");
-     nano.view('search_target', 'by_user_id', {key: req_body.user_id}, function(err, body){
+     nano.view('search_target', 'by_user_id', {key: [req_body.user_id, req_body.target_id]}, function(err, body){
      	console.log(body.rows.length);
          if (body.rows.length == 0) {
             //insert follow
@@ -23,7 +23,7 @@ var follow_users = function(app, CouchDB, CradleDB){
             });
          } 
          else {
-         	console.log("zhao dao le!");
+         	  console.log("zhao dao le!");
             response.status(500).end();
          }
      });
@@ -38,7 +38,7 @@ var follow_users = function(app, CouchDB, CradleDB){
         }
         else{
         	console.log("you have notifications!");
-        	response.status(200).json(body);
+        	response.status(200).json(body).end();
         }
      });
   });
