@@ -12,7 +12,9 @@ var follow_users = function(app, CouchDB, CradleDB){
             nano.insert({
               user_id: req_body.user_id, 
               target_id: req_body.target_id, 
-              verified: 'no'
+              verified: 'not yet', 
+              is_read: 'no', 
+              full_name: req_body.full_name
             }, function(insert_err, insert_body){
             	console.log("yao cha le");
             	console.log(insert_err);
