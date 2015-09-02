@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(multer({ dest: './uploads/'}));
 
 //use all the custom modules
-login(app, CouchDB);
+login(app, CouchDB, CradleDB);
 maps(app, CouchDB, CradleDB);
 update_settings(app, CouchDB, CradleDB);
 adventure_logs(app, CouchDB);

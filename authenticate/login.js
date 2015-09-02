@@ -1,5 +1,6 @@
-var login=function(app, CouchDB){
-  var nano=CouchDB().db("users");
+var login=function(app, CouchDB, CradleDB){
+    var nano=CouchDB().db("users");
+    var cradle = CradleDB().database("users");
   app.get("/users/login/:email/:password", function(request, response){
     console.log(response);
     nano.view('login', 'by_email_and_password', {key:[request.params.email, request.params.password]}, function(err, body) {
@@ -17,7 +18,8 @@ var login=function(app, CouchDB){
       var req_body=request.body;
       nano.insert({first_name: req_body.first_name, last_name: req_body.last_name,
                    email: req_body.email, password: req_body.password,
-                   sync_url: "https://trackpacker.cloudant.com/users"},
+                   sync_url: "https://trackpacker.cloudant.com/users",
+                   friends: [] },
                    function(err, body){
 					   if (!err)
                            response.status(200);
@@ -49,6 +51,25 @@ var login=function(app, CouchDB){
           }
       });
   });
+
+    app.post("/users/add_friends", function(request, response){
+        var req_body = request.body;
+        console.log("add friends!");
+        nano.get(req_body.sender_id, function(err, body){
+            if (err){
+                console.log(err);
+                response.status(500).end();
+            }
+            else{
+                console.log(body);
+                body.friends.push(req_body.sender_id);
+                cradle.merge(req_body.accepter_id, {friends: body.friends}, function(merge_err, merge_res){
+
+                });
+                response.status(200).json(body).end();
+            }
+        });
+    });
 }
 
 module.exports=login;

@@ -42,6 +42,21 @@ var follow_users = function(app, CouchDB, CradleDB){
         }
      });
   });
+
+    app.post("/users/delete_follow", function(request, response){
+        var req_body = request.body;
+        console.log("delete follow!");
+        nano.destroy(req_body.notification_id, req_body.rev, function(err, body){
+            if(err){
+                console.log(err);
+                response.status(500).end();
+            }
+            else {
+                console.log(body);
+                response.status(200).end();
+            }
+        });
+    });
 };
 
 module.exports=follow_users;
