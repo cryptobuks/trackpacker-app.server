@@ -14,6 +14,7 @@ var create_map = function(app, CouchDB, CradleDB){
           user_id: req_body.user_id,
           is_trip: "YES",
           place: "China",
+          full_name: req_body.full_name,
           gps_intervals:{
              distance: req_body.distance, //meters of distance between auto lookup
              frequency: req_body.frequency_auto_lookup //the number of minutes between auto lookup

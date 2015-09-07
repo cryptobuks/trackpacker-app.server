@@ -70,6 +70,22 @@ var login=function(app, CouchDB, CradleDB){
             }
         });
     });
+
+    app.get("/users/get_my_friends/:user_id", function(request, response){
+        var req_body = request.params;
+        console.log("get my friends");
+        nano.get(req_body.user_id, function(err, body){
+           var map_db=CouchDB().db("maps");
+           console.log(body.friends);
+           map_db.view("find_trips", "by_user_id",{keys: body.friends} , function(err_fetch, body_fetch){
+              if (!err_fetch) {
+                 console.log(JSON.stringify(body_fetch));
+                 response.status(200).json(body_fetch).end();
+              }
+              else response.status(500).end();
+           });
+        });
+    });
 }
 
 module.exports=login;
